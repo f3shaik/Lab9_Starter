@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <title>Lab 9</title>
 
   <style>
@@ -87,21 +88,112 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "dbc1d61b20f64e1092a34a6af45129a2"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
+      // Step 3
       e.preventDefault();
       let output = document.querySelector('output');
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      // output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        if (isNaN(firstNum)) {
+          throw new Error("The first input is not a number!")
+        }
+
+        if (isNaN(secondNum)) {
+          throw new Error("The second input is not a number!");
+          throw new Error("plz");
+        }
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } 
+      catch (error) {
+        console.warn("Something went wrong in the calculator");
+        console.error(error.message);
+      } finally {
+        console.log("Hope you had fun!");
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    errorBtns[0].addEventListener("click", () => {
+      console.log("Console Log Demo");
+    });
+    errorBtns[1].addEventListener("click", () => {
+      console.error("Console Error Demo");
+    });
+    errorBtns[2].addEventListener("click", () => {
+      console.count("Console Count Demo");
+    });
+    errorBtns[3].addEventListener("click", () => {
+      console.warn("Console Warning Demo");
+    });
+    errorBtns[4].addEventListener("click", () => {
+      console.assert(3 === 4, "Console Assert Demo");
+    });
+    errorBtns[5].addEventListener("click", () => {
+      console.clear();
+    });
+    errorBtns[6].addEventListener("click", () => {
+      console.dir(errorBtns);
+    });
+    errorBtns[7].addEventListener("click", () => {
+      console.dirxml(errorBtns);
+    });
+    errorBtns[8].addEventListener("click", () => {
+      console.group();
+    });
+    errorBtns[9].addEventListener("click", () => {
+      console.groupEnd();
+    });
+    errorBtns[10].addEventListener("click", () => {
+      console.table(errorBtns);
+    });
+    errorBtns[11].addEventListener("click", () => {
+      console.time("Timer Demo");
+    });
+    errorBtns[12].addEventListener("click", () => {
+      console.timeEnd("Timer Demo");
+    });
+    errorBtns[13].addEventListener("click", () => {
+      function C() {
+        console.trace();
+      }
+      function S() {
+        C();
+      }
+      function E() {
+        S();
+      }
+      E();
+    });
+    // Combining step 2 & step 4 here
+    class WorkingError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "Psycho Pass";
+      }
+    }
+    errorBtns[14].addEventListener("click", () => {
+      throw new WorkingError("Welcome to the Party Pal!")
+    });
+    window.addEventListener("error", () => {
+      console.log("You who tried to make an error, face the terror!")
+    })
   </script>
 </body>
 
